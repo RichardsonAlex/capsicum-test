@@ -18,7 +18,11 @@ mini-me: mini-me.c
 mini-me.noexec: mini-me
 	cp mini-me $@ && chmod -x $@
 mini-me.setuid: mini-me
-	rm -f $@ && cp mini-me $@&& sudo chown root $@ && sudo chmod u+s $@
+ifneq ($(NO_ROOT),)
+	rm -f $@ && cp mini-me $@
+else
+	rm -f $@ && cp mini-me $@ && sudo chown root $@ && sudo chmod u+s $@
+endif
 
 # Simple C test of Capsicum syscalls
 SMOKETEST_OBJECTS=smoketest.o
